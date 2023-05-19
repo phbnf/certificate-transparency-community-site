@@ -15,7 +15,7 @@
     {
       "name": "Google",
       "url": "https://github.com/google/certificate-transparency-community-site/blob/master/docs/google/known-logs.md",
-      "description": "",
+      "description": "Runs production, mirror and test logs.",
       "logo": "google.svg"
     },
     {
