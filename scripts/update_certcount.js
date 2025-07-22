@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-const axios = require('axios'),
-      fs   = require('fs'),
+const fs   = require('fs'),
       path = require('path');
 
 const dataUrl = "https://ct.cloudflare.com/data/total";
 
-axios.get(dataUrl)
-  .then( response => {
+fetch(dataUrl)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.text();
+  })
+  .then( body => {
 
-    const count = response.data;
+    const count = body;
     const asof = new Date().toISOString().slice(0, 10);
     const countString = JSON.stringify({count, asof}, false, 2);
     const dataPath = path.join(__dirname, '..', 'data', 'certcount.json');
@@ -31,5 +36,5 @@ axios.get(dataUrl)
     fs.writeFileSync(dataPath, countString);
   })
   .catch(error => {
-    console.log(error)
+    console.error('Error fetching or writing data:', error);
   });
